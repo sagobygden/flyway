@@ -62,7 +62,7 @@
             <artifactId>hsqldb</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.oracle.ojdbc</groupId>
+            <groupId>com.oracle.jdbc</groupId>
             <artifactId>ojdbc8</artifactId>
         </dependency>
         <dependency>
