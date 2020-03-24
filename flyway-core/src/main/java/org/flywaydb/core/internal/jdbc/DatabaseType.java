@@ -31,9 +31,7 @@ import java.sql.Types;
 public enum DatabaseType {
     COCKROACHDB("CockroachDB", Types.NULL, false),
     DB2("DB2", Types.VARCHAR, true),
-
-
-
+    DB2AS400("DB2AS400", Types.VARCHAR, true),
     DERBY("Derby", Types.VARCHAR, true),
     FIREBIRD("Firebird", Types.NULL, true), // TODO does it support read only transactions?
     H2("H2", Types.VARCHAR, true),
@@ -117,12 +115,10 @@ public enum DatabaseType {
             }
             return POSTGRESQL;
         }
+        if (databaseProductName.contains("AS400")) {
+            return DB2AS400;
+        }
         if (databaseProductName.startsWith("DB2")) {
-
-
-
-
-
             return DB2;
         }
         if (databaseProductName.startsWith("ASE")) {

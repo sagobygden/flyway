@@ -1,0 +1,58 @@
+package org.flywaydb.core.internal.database.db2as400;
+
+import org.flywaydb.core.internal.database.base.Schema;
+import org.flywaydb.core.internal.database.base.Table;
+import org.flywaydb.core.internal.jdbc.JdbcTemplate;
+
+import java.sql.SQLException;
+
+public class DB2AS400Schema extends Schema<DB2AS400Database, DB2AS400Table> {
+
+    /**
+     * Creates a new DB2 schema.
+     *
+     * @param jdbcTemplate The Jdbc Template for communicating with the DB.
+     * @param database     The database-specific support.
+     * @param name         The name of the schema.
+     */
+    DB2AS400Schema(JdbcTemplate jdbcTemplate, DB2AS400Database database, String name) {
+        super(jdbcTemplate, database, name);
+    }
+
+    @Override
+    protected boolean doExists() throws SQLException {
+        return jdbcTemplate.queryForInt("SELECT count(*) from ("
+                + "SELECT 1 FROM sysibm.schemata WHERE schema_name=?"
+                + ")", name) > 0;
+    }
+
+    @Override
+    protected boolean doEmpty() throws SQLException {
+        return false;
+    }
+
+    @Override
+    protected void doCreate() throws SQLException {
+        // do nothing
+    }
+
+    @Override
+    protected void doDrop() throws SQLException {
+        // do nothing
+    }
+
+    @Override
+    protected void doClean() throws SQLException {
+        // do nothing
+    }
+
+    @Override
+    protected DB2AS400Table[] doAllTables() throws SQLException {
+        return new DB2AS400Table[0];
+    }
+
+    @Override
+    public Table getTable(String tableName) {
+        return null;
+    }
+}
