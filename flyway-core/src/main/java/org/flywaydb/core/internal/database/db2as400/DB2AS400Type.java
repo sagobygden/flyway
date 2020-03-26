@@ -1,11 +1,15 @@
 package org.flywaydb.core.internal.database.db2as400;
 
+import org.flywaydb.core.api.logging.Log;
+import org.flywaydb.core.api.logging.LogFactory;
 import org.flywaydb.core.internal.database.base.Type;
 import org.flywaydb.core.internal.jdbc.JdbcTemplate;
 
 import java.sql.SQLException;
 
 public class DB2AS400Type extends Type<DB2AS400Database, DB2AS400Schema> {
+
+    private static final Log LOG = LogFactory.getLog(DB2AS400Type.class);
 
     /**
      * Creates a new Db2 type.
@@ -21,6 +25,6 @@ public class DB2AS400Type extends Type<DB2AS400Database, DB2AS400Schema> {
 
     @Override
     protected void doDrop() throws SQLException {
-        // do nothing
+        LOG.warn("doDrop method is not supported for DB2 for AS400");
     }
 }

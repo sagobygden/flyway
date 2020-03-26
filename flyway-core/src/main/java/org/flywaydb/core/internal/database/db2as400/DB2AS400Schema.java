@@ -1,5 +1,7 @@
 package org.flywaydb.core.internal.database.db2as400;
 
+import org.flywaydb.core.api.logging.Log;
+import org.flywaydb.core.api.logging.LogFactory;
 import org.flywaydb.core.internal.database.base.Schema;
 import org.flywaydb.core.internal.database.base.Table;
 import org.flywaydb.core.internal.jdbc.JdbcTemplate;
@@ -7,6 +9,8 @@ import org.flywaydb.core.internal.jdbc.JdbcTemplate;
 import java.sql.SQLException;
 
 public class DB2AS400Schema extends Schema<DB2AS400Database, DB2AS400Table> {
+
+    private static final Log LOG = LogFactory.getLog(DB2AS400Schema.class);
 
     /**
      * Creates a new DB2 schema.
@@ -33,17 +37,17 @@ public class DB2AS400Schema extends Schema<DB2AS400Database, DB2AS400Table> {
 
     @Override
     protected void doCreate() throws SQLException {
-        // do nothing
+        LOG.warn("doCreate method is not supported for DB2 for AS400");
     }
 
     @Override
     protected void doDrop() throws SQLException {
-        // do nothing
+        LOG.warn("doDrop method is not supported for DB2 for AS400");
     }
 
     @Override
     protected void doClean() throws SQLException {
-        // do nothing
+        LOG.warn("doClean method is not supported for DB2 for AS400");
     }
 
     @Override

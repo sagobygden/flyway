@@ -24,9 +24,6 @@ public class DB2AS400Database extends Database<DB2AS400Connection> {
         return new DB2AS400Connection(this, connection);
     }
 
-    /*
-    TODO: Check DB2 version number
-     */
     @Override
     public void ensureSupported() {
         ensureDatabaseIsRecentEnough("9.7");

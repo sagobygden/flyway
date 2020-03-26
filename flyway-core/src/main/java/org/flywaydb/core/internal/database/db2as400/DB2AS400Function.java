@@ -1,5 +1,7 @@
 package org.flywaydb.core.internal.database.db2as400;
 
+import org.flywaydb.core.api.logging.Log;
+import org.flywaydb.core.api.logging.LogFactory;
 import org.flywaydb.core.internal.database.base.Database;
 import org.flywaydb.core.internal.database.base.Function;
 import org.flywaydb.core.internal.database.base.Schema;
@@ -8,6 +10,8 @@ import org.flywaydb.core.internal.jdbc.JdbcTemplate;
 import java.sql.SQLException;
 
 public class DB2AS400Function extends Function {
+
+    private static final Log LOG = LogFactory.getLog(DB2AS400Function.class);
 
     /**
      * Creates a new Db2 function.
@@ -24,6 +28,6 @@ public class DB2AS400Function extends Function {
 
     @Override
     protected void doDrop() throws SQLException {
-        throw new SQLException("Operation not supported!");
+        LOG.warn("doDrop method is not supported for DB2 for AS400");
     }
 }
