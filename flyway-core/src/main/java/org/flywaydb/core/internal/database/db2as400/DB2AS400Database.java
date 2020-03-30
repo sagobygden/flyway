@@ -26,9 +26,9 @@ public class DB2AS400Database extends Database<DB2AS400Connection> {
 
     @Override
     public void ensureSupported() {
-        ensureDatabaseIsRecentEnough("9.7");
-        ensureDatabaseNotOlderThanOtherwiseRecommendUpgradeToFlywayEdition("11.1", org.flywaydb.core.internal.license.Edition.ENTERPRISE);
-        recommendFlywayUpgradeIfNecessary("11.5");
+        ensureDatabaseIsRecentEnough("7.2");
+        ensureDatabaseNotOlderThanOtherwiseRecommendUpgradeToFlywayEdition("7.2", org.flywaydb.core.internal.license.Edition.ENTERPRISE);
+        recommendFlywayUpgradeIfNecessary("7.4");
     }
 
     @Override

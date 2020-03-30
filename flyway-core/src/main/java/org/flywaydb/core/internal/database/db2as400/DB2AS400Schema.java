@@ -2,8 +2,13 @@ package org.flywaydb.core.internal.database.db2as400;
 
 import org.flywaydb.core.api.logging.Log;
 import org.flywaydb.core.api.logging.LogFactory;
+import org.flywaydb.core.internal.database.base.Function;
 import org.flywaydb.core.internal.database.base.Schema;
 import org.flywaydb.core.internal.database.base.Table;
+import org.flywaydb.core.internal.database.base.Type;
+import org.flywaydb.core.internal.database.db2.DB2Function;
+import org.flywaydb.core.internal.database.db2.DB2Table;
+import org.flywaydb.core.internal.database.db2.DB2Type;
 import org.flywaydb.core.internal.jdbc.JdbcTemplate;
 
 import java.sql.SQLException;
@@ -57,6 +62,16 @@ public class DB2AS400Schema extends Schema<DB2AS400Database, DB2AS400Table> {
 
     @Override
     public Table getTable(String tableName) {
-        return null;
+        return new DB2AS400Table(jdbcTemplate, database, this, tableName);
+    }
+
+    @Override
+    protected Type getType(String typeName) {
+        return new DB2AS400Type(jdbcTemplate, database, this, typeName);
+    }
+
+    @Override
+    public Function getFunction(String functionName, String... args) {
+        return new DB2AS400Function(jdbcTemplate, database, this, functionName, args);
     }
 }

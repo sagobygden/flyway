@@ -484,11 +484,7 @@ public class Flyway {
 
         Database database = null;
         try {
-            database = DatabaseFactory.createDatabase(configuration, !dbConnectionInfoPrinted, jdbcConnectionFactory
-
-
-
-            );
+            database = DatabaseFactory.createDatabase(configuration, !dbConnectionInfoPrinted, jdbcConnectionFactory);
 
             dbConnectionInfoPrinted = true;
             LOG.debug("DDL Transactions Supported: " + database.supportsDdlTransactions());
@@ -505,29 +501,20 @@ public class Flyway {
             parsingContext.populate(database, configuration);
 
             database.ensureSupported();
-
+            LOG.info("Database version is supported!");
             DefaultCallbackExecutor callbackExecutor = new DefaultCallbackExecutor(configuration, database, defaultSchema,
-                    prepareCallbacks(database, resourceProvider, jdbcConnectionFactory, sqlScriptFactory
-
-
-
-                    ));
-
-            SqlScriptExecutorFactory sqlScriptExecutorFactory = DatabaseFactory.createSqlScriptExecutorFactory(jdbcConnectionFactory
-
-
-
-
-            );
-
+                    prepareCallbacks(database, resourceProvider, jdbcConnectionFactory, sqlScriptFactory));
+            LOG.info("Callback executor created...");
+            SqlScriptExecutorFactory sqlScriptExecutorFactory = DatabaseFactory.createSqlScriptExecutorFactory(jdbcConnectionFactory);
+            LOG.info("SqlScriptExecutorFactory created...");
+            MigrationResolver migrationResolver = createMigrationResolver(resourceProvider, classProvider, sqlScriptExecutorFactory, sqlScriptFactory, parsingContext);
+            LOG.info("Migration resolver: " + migrationResolver);
+            SchemaHistory history = SchemaHistoryFactory.getSchemaHistory(configuration, noCallbackSqlScriptExecutorFactory, sqlScriptFactory, database, defaultSchema);
+            LOG.info("Schema history: " + history);
+            LOG.info("Execute command " + command);
             result = command.execute(
-                    createMigrationResolver(resourceProvider, classProvider, sqlScriptExecutorFactory, sqlScriptFactory, parsingContext),
-                    SchemaHistoryFactory.getSchemaHistory(configuration, noCallbackSqlScriptExecutorFactory, sqlScriptFactory,
-                            database, defaultSchema
-
-
-
-                    ),
+                    migrationResolver,
+                    history,
                     database,
                     schemas.getRight().toArray(new Schema[0]),
                     callbackExecutor
@@ -542,6 +529,7 @@ public class Flyway {
 
             showMemoryUsage();
         }
+        LOG.info("Result of migration: " + result);
         return result;
     }
 

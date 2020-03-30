@@ -288,7 +288,7 @@ public class ClassPathScanner<I> implements ResourceAndClassScanner<I> {
         if ("file".equals(protocol)) {
             FileSystemClassPathLocationScanner locationScanner = new FileSystemClassPathLocationScanner();
             locationScannerCache.put(protocol, locationScanner);
-            resourceNameCache.put(locationScanner, new HashMap<>());
+            resourceNameCache.put(locationScanner, new HashMap<URL,Set<String>>());
             return locationScanner;
         }
 
@@ -296,7 +296,7 @@ public class ClassPathScanner<I> implements ResourceAndClassScanner<I> {
             String separator = isTomcat(protocol) ? "*/" : "!/";
             ClassPathLocationScanner locationScanner = new JarFileClassPathLocationScanner(separator);
             locationScannerCache.put(protocol, locationScanner);
-            resourceNameCache.put(locationScanner, new HashMap<>());
+            resourceNameCache.put(locationScanner, new HashMap<URL,Set<String>>());
             return locationScanner;
         }
 
@@ -304,13 +304,13 @@ public class ClassPathScanner<I> implements ResourceAndClassScanner<I> {
         if (featureDetector.isJBossVFSv3Available() && "vfs".equals(protocol)) {
             JBossVFSv3ClassPathLocationScanner locationScanner = new JBossVFSv3ClassPathLocationScanner();
             locationScannerCache.put(protocol, locationScanner);
-            resourceNameCache.put(locationScanner, new HashMap<>());
+            resourceNameCache.put(locationScanner, new HashMap<URL,Set<String>>());
             return locationScanner;
         }
         if (featureDetector.isOsgiFrameworkAvailable() && (isFelix(protocol) || isEquinox(protocol))) {
             OsgiClassPathLocationScanner locationScanner = new OsgiClassPathLocationScanner();
             locationScannerCache.put(protocol, locationScanner);
-            resourceNameCache.put(locationScanner, new HashMap<>());
+            resourceNameCache.put(locationScanner, new HashMap<URL,Set<String>>());
             return locationScanner;
         }
 

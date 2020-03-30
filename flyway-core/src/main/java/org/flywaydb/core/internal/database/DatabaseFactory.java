@@ -108,13 +108,16 @@ public class DatabaseFactory {
 
         DatabaseType databaseType = jdbcConnectionFactory.getDatabaseType();
 
-        Database database = createDatabase(databaseType, configuration, jdbcConnectionFactory
+        Database database = createDatabase(databaseType, configuration, jdbcConnectionFactory);
 
-
-
-        );
+        if(database != null) {
+            LOG.info("Database instance: " + database.getClass().getName());
+        } else {
+            LOG.error("No database instance: found!");
+        }
 
         String intendedCurrentSchema = configuration.getDefaultSchema();
+        LOG.info("IntendedCurrentSchema: " + intendedCurrentSchema);
         if (!database.supportsChangingCurrentSchema() && intendedCurrentSchema != null) {
             LOG.warn(databaseProductName + " does not support setting the schema for the current session. " +
                     "Default schema will NOT be changed to " + intendedCurrentSchema + " !");

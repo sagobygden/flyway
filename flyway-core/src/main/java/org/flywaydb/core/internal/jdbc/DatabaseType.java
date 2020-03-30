@@ -115,7 +115,7 @@ public enum DatabaseType {
             }
             return POSTGRESQL;
         }
-        if (databaseProductName.contains("AS400")) {
+        if (databaseProductName.toLowerCase().contains("as400") || databaseProductName.toLowerCase().contains("as/400")) {
             return DB2AS400;
         }
         if (databaseProductName.startsWith("DB2")) {
