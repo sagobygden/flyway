@@ -53,7 +53,7 @@ public class SqlScriptMetadata {
             LOG.debug("Found script configuration: " + resource.getFilename());
             return new SqlScriptMetadata(ConfigUtils.readConfiguration(resource.read()));
         }
-        return new SqlScriptMetadata(new HashMap<>());
+        return new SqlScriptMetadata(new HashMap<String,String>());
     }
 
     public static LoadableResource getMetadataResource(ResourceProvider resourceProvider, LoadableResource resource) {

@@ -26,6 +26,8 @@ import org.flywaydb.core.internal.database.cockroachdb.CockroachDBParser;
 import org.flywaydb.core.internal.database.cockroachdb.CockroachDBRetryingStrategy;
 import org.flywaydb.core.internal.database.db2.DB2Database;
 import org.flywaydb.core.internal.database.db2.DB2Parser;
+import org.flywaydb.core.internal.database.db2as400.DB2AS400Database;
+import org.flywaydb.core.internal.database.db2as400.DB2AS400Parser;
 import org.flywaydb.core.internal.database.derby.DerbyDatabase;
 import org.flywaydb.core.internal.database.derby.DerbyParser;
 
@@ -106,13 +108,16 @@ public class DatabaseFactory {
 
         DatabaseType databaseType = jdbcConnectionFactory.getDatabaseType();
 
-        Database database = createDatabase(databaseType, configuration, jdbcConnectionFactory
+        Database database = createDatabase(databaseType, configuration, jdbcConnectionFactory);
 
-
-
-        );
+        if(database != null) {
+            LOG.info("Database instance: " + database.getClass().getName());
+        } else {
+            LOG.error("No database instance: found!");
+        }
 
         String intendedCurrentSchema = configuration.getDefaultSchema();
+        LOG.info("IntendedCurrentSchema: " + intendedCurrentSchema);
         if (!database.supportsChangingCurrentSchema() && intendedCurrentSchema != null) {
             LOG.warn(databaseProductName + " does not support setting the schema for the current session. " +
                     "Default schema will NOT be changed to " + intendedCurrentSchema + " !");
@@ -129,108 +134,41 @@ public class DatabaseFactory {
     ) {
         switch (databaseType) {
             case COCKROACHDB:
-                return new CockroachDBDatabase(configuration, jdbcConnectionFactory
-
-
-
-                );
+                return new CockroachDBDatabase(configuration, jdbcConnectionFactory );
             case DB2:
-                return new DB2Database(configuration, jdbcConnectionFactory
-
-
-
-                );
-
-
-
-
-
+                return new DB2Database(configuration, jdbcConnectionFactory);
+            case DB2AS400:
+                return new DB2AS400Database(configuration, jdbcConnectionFactory);
             case DERBY:
-                return new DerbyDatabase(configuration, jdbcConnectionFactory
-
-
-
-                );
+                return new DerbyDatabase(configuration, jdbcConnectionFactory);
             case FIREBIRD:
-                return new FirebirdDatabase(configuration, jdbcConnectionFactory
-
-
-
-                );
+                return new FirebirdDatabase(configuration, jdbcConnectionFactory);
             case H2:
-                return new H2Database(configuration, jdbcConnectionFactory
-
-
-
-                );
+                return new H2Database(configuration, jdbcConnectionFactory);
             case HSQLDB:
-                return new HSQLDBDatabase(configuration, jdbcConnectionFactory
-
-
-
-                );
+                return new HSQLDBDatabase(configuration, jdbcConnectionFactory);
             case INFORMIX:
-                return new InformixDatabase(configuration, jdbcConnectionFactory
-
-
-
-                );
+                return new InformixDatabase(configuration, jdbcConnectionFactory);
             case MARIADB:
             case MYSQL:
-                return new MySQLDatabase(configuration, jdbcConnectionFactory
-
-
-
-                );
+                return new MySQLDatabase(configuration, jdbcConnectionFactory);
             case ORACLE:
-                return new OracleDatabase(configuration, jdbcConnectionFactory
-
-
-
-                );
+                return new OracleDatabase(configuration, jdbcConnectionFactory);
             case POSTGRESQL:
-                return new PostgreSQLDatabase(configuration, jdbcConnectionFactory
-
-
-
-                );
+                return new PostgreSQLDatabase(configuration, jdbcConnectionFactory);
             case REDSHIFT:
-                return new RedshiftDatabase(configuration, jdbcConnectionFactory
-
-
-
-                );
+                return new RedshiftDatabase(configuration, jdbcConnectionFactory);
             case SNOWFLAKE:
-                return new SnowflakeDatabase(configuration, jdbcConnectionFactory
-
-
-
-                );
+                return new SnowflakeDatabase(configuration, jdbcConnectionFactory);
             case SQLITE:
-                return new SQLiteDatabase(configuration, jdbcConnectionFactory
-
-
-
-                );
+                return new SQLiteDatabase(configuration, jdbcConnectionFactory);
             case SAPHANA:
-                return new SAPHANADatabase(configuration, jdbcConnectionFactory
-
-
-
-                );
+                return new SAPHANADatabase(configuration, jdbcConnectionFactory );
             case SQLSERVER:
-                return new SQLServerDatabase(configuration, jdbcConnectionFactory
-
-
-
-                );
+                return new SQLServerDatabase(configuration, jdbcConnectionFactory);
             case SYBASEASE_JCONNECT:
             case SYBASEASE_JTDS:
-                return new SybaseASEDatabase(configuration, jdbcConnectionFactory
-
-
-
-                );
+                return new SybaseASEDatabase(configuration, jdbcConnectionFactory );
             default:
                 throw new FlywayException("Unsupported Database: " + databaseType.name());
         }
@@ -284,10 +222,8 @@ public class DatabaseFactory {
                 return new CockroachDBParser(configuration, parsingContext);
             case DB2:
                 return new DB2Parser(configuration, parsingContext);
-
-
-
-
+            case DB2AS400:
+                return new DB2AS400Parser(configuration, parsingContext);
             case DERBY:
                 return new DerbyParser(configuration, parsingContext);
             case FIREBIRD:

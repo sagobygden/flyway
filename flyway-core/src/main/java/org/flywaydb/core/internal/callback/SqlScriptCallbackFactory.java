@@ -91,7 +91,7 @@ public class SqlScriptCallbackFactory {
     }
 
     public List<Callback> getCallbacks() {
-        return new ArrayList<>(callbacks);
+        return new ArrayList<Callback>(callbacks);
     }
 
     private static class SqlScriptCallback implements Callback, Comparable<SqlScriptCallback> {
